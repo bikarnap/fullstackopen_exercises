@@ -26,14 +26,27 @@ function App() {
     votesCopy[selected] += 1;
     setVotes(votesCopy)
   }
+
+  const getMostVotedAnecdote = () => {
+    const maxVotes = Math.max(...votes);
+    const indexOfMaxVotes = votes.indexOf(maxVotes);
+    return <div>
+      {anecdotes[indexOfMaxVotes]}
+      <div>has {maxVotes} votes</div>
+    </div>
+  };
+
   return (
-    <div className="App">
-     {anecdotes[selected]}
-     <div>has {votes[selected]} votes</div>
-     <div>
-      <Button handleClick={handleVote} label="vote" />
-      <Button handleClick={generateSelection} label="next anecdote" />
-     </div>
+    <div>
+      <h1>Anecdote of the day</h1>
+      {anecdotes[selected]}
+      <div>has {votes[selected]} votes</div>
+      <div>
+        <Button handleClick={handleVote} label="vote" />
+        <Button handleClick={generateSelection} label="next anecdote" />
+      </div>
+      <h2>Anecdote with most votes</h2>
+      {getMostVotedAnecdote()}
     </div>
   );
 }
