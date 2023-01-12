@@ -10,7 +10,12 @@ const Content = (props) => (
   </div>
 )
 
-const Total = (props) => <p><strong>total of {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises} exercises</strong></p>
+const Total = (props) => {
+  const totalExercises = props.parts.reduce((sum, exercises) => sum + exercises.exercises, 0);
+  return (
+    <p><strong>total of {totalExercises} exercises</strong></p>
+  )
+}
 
 const Course = ({ course }) => {
   return (
