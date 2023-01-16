@@ -6,12 +6,22 @@ const App = () => {
   const [countryFilter, setCountryFilter] = useState('');
   const [show, setShow] = useState(false);
   const [country, setCountry] = useState({});
+  const [weather, setWeather] = useState([]);
 
   useEffect(() => {
     axios
       .get('https://restcountries.com/v3.1/all')
       .then(response => setCountries(response.data));
   }, []);
+
+  let weatherAPI = 'https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=35f2145c95503ea1f6fca79798c60d8b1'
+  useEffect(() => {
+    axios
+      .get(weatherAPI)
+      .then(response => setWeather(response.data));
+  }, []);
+
+  console.log(weather)
 
   const handleCountryFilter = (event) =>{
     setCountryFilter(event.target.value);
@@ -22,15 +32,21 @@ const App = () => {
     return (
       <>
         <h1>{country.name.common}</h1>
-          <div>capital {country.capital}</div>
-          <div>area {country.area}</div>
-          <div>
-            <p><strong>languages</strong></p>
-            <ul>
-              {Object.keys(country.languages).map(lk => <li key={lk}>{country.languages[lk]}</li>)}
-            </ul>
-          </div>
-          <img style={{ width: '150px' }} src={country.flags.png} alt={`flag of ${country.name.common}`} />
+        <div>capital {country.capital}</div>
+        <div>area {country.area}</div>
+        <div>
+          <p><strong>languages</strong></p>
+          <ul>
+            {Object.keys(country.languages).map(lk => <li key={lk}>{country.languages[lk]}</li>)}
+          </ul>
+        </div>
+        <img style={{ width: '150px' }} src={country.flags.png} alt={`flag of ${country.name.common}`} />
+        <div>
+          <h2>Weather in {country.capital}</h2>
+          <div>temperature 27 </div>
+          <div><img src="#" alt={`weather in ${country.capital}`} /></div>
+          <div>wind 2 m/s</div>
+        </div>
       </>
     )
   };
@@ -61,6 +77,12 @@ const App = () => {
                 <img style={{ width: '150px' }} src={country.flags.png} alt={`flag of ${country.name.common}`} />
               </div>
             )}
+          <div>
+            <h2>Weather in {country.capital}</h2>
+            <div>temperature 27 </div>
+            <div><img src="#" alt={`weather in ${country.capital}`} /></div>
+            <div>wind 2 m/s</div>
+          </div>
           </>
         )
       } 
