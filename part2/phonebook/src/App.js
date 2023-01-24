@@ -43,6 +43,16 @@ const App = () => {
   const handleNewPerson = (event) => setNewPerson(event.target.value);
   const handleNumberChange = (event) => setNewNumber(event.target.value);
   const handleFilterChange = (event) => setFilter(event.target.value);
+  const removePerson = (id) => {
+    const personToRemove = persons.find(person => person.id === id);
+    if (window.confirm(`Delete ${personToRemove.name}?`)) {
+      personsService
+      .deletePerson(id)
+      .then(deletedPerson => {
+        setPersons(persons.filter(person => person.id !== id));
+      });
+    }
+  }
 
   const personsToShow = !filter
     ? persons
@@ -63,6 +73,7 @@ const App = () => {
       <h2>Numbers</h2>
       <Persons
         persons={personsToShow}
+        deletePerson={removePerson}
       />
     </div>
   );
