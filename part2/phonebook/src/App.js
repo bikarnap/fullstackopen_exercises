@@ -22,9 +22,21 @@ const App = () => {
     event.preventDefault();
     
     const personExists = persons.find(person => person.name === newPerson);
+    const numberExists = persons.find(person => person.number === newNumber);
 
     if (personExists) {
-      alert(`${newPerson} has already been added to phonebook!`);
+      if (personExists.number !== newNumber) {
+        if (window.confirm(`${personExists.name} is already added to phonebook, replace the old number with a new one? `)) {
+          const personObject = {...personExists, number: newNumber};
+          personsService
+            .update(personExists.id, personObject)
+            .then(updatedPerson => {
+              setPersons(persons.filter(person => person.name !== personExists.name).concat(updatedPerson))
+            });
+        }
+      } else {
+        alert(`${newPerson} has already been added to phonebook!`);
+      }
     } else {
       const personObject = {
         name: newPerson,
