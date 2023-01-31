@@ -22,7 +22,12 @@ const persons = [
     "name": "Mary Poppendieck", 
     "number": "39-23-6423122"
   }
-]
+];
+
+app.get('/info', (req, res) => {
+  const info = `<strong>Phonebook has info for ${persons.length} people.</strong><br /><strong>${new Date()}</strong>`
+  res.send(info)
+});
 
 app.get('/api/persons', (req, res) => {
   res.json(persons);
